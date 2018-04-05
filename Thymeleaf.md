@@ -242,5 +242,172 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
 
 
 
+- **th:insert**   ：保留自己的主标签，保留th:fragment的主标签。
+
+
+
+> 模板内容(header.html)
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="header" class="xxx">
+    	中华人民共和国
+    </div>
+    </body>
+</html>
+```
+
+引用模板代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+        <div class="top" th:replace="header :: header">
+            
+        </div>
+    </div>
+    </body>
+</html>
+```
+
+最终代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+        <div class="top">
+            <div  class="xxx">
+            中华人民共和国
+            </div>
+        </div> 
+    </div>
+    </body>
+</html>
+```
+
+
+
+- `th:replace` ：不要自己的主标签，保留th:fragment的主标签。
+
+
+
+> 模板内容(header.html)
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="header" class="xxx">
+    	中华人民共和国
+    </div>
+    </body>
+</html>
+```
+
+引用模板代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+        <div class="top" th:replace="header :: header">
+            
+        </div>
+    </div>
+    </body>
+</html>
+```
+
+最终代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+        <div  class="xxx">
+    	中华人民共和国
+    	</div>
+    </div>
+    </body>
+</html>
+```
+
+
+
+- `th:include` ：保留自己的主标签，不要th:fragment的主标签。（官方3.0后不推荐）
+
+> 
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="header" class="xxx">
+    	中华人民共和国
+    </div>
+    </body>
+</html>
+```
+
+引用模板代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+        <div class="top" th:replace="header :: header">
+            
+        </div>
+    </div>
+    </body>
+</html>
+```
+
+最终代码
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        ...
+    </head>
+<body>
+	<div class="condition">
+    	中华人民共和国
+    </div>
+    </body>
+</html>
+```
+
+
+
+
+
+
+
 
 
