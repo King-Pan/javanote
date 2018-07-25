@@ -269,7 +269,7 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
     </head>
 <body>
 	<div class="condition">
-        <div class="top" th:replace="header :: header">
+        <div class="top" th:insert="header :: header">
             
         </div>
     </div>
@@ -379,7 +379,7 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
     </head>
 <body>
 	<div class="condition">
-        <div class="top" th:replace="header :: header">
+        <div class="top" th:include="header :: header">
             
         </div>
     </div>

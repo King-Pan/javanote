@@ -1089,7 +1089,9 @@ Negative matches:（没有启动，没有匹配成功的自动配置类）
 
 **市面上的日志框架；**
 
-JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j....
+常用的日志框架: JUL、JCL、Jboss-logging、logback、log4j、log4j2、slf4j....
+
+
 
 | 日志门面  （日志的抽象层）                           | 日志实现                                     |
 | ---------------------------------------- | ---------------------------------------- |
@@ -1318,10 +1320,10 @@ logback.xml：直接就被日志框架识别了；
         -->
         <layout class="ch.qos.logback.classic.PatternLayout">
             <springProfile name="dev">
-                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ----> [%thread] ---> %-5level %logger{50} - %msg%n</pattern>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
             </springProfile>
             <springProfile name="!dev">
-                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} ==== [%thread] ==== %-5level %logger{50} - %msg%n</pattern>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
             </springProfile>
         </layout>
     </appender>
