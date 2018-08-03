@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>01_HelloWorld</title>
+    <style>
+        .aClass{
+            font-size: 50px;
+        }
+        .bClass{
+            font-size: 20px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+
+<!--
+  1. 引入Vue.js
+  2. 创建Vue对象
+    el : 指定根element(选择器)
+    data : 初始化数据(页面可以访问)
+  3. 双向数据绑定 : v-model
+  4. 显示数据 : {{xxx}}
+  5. 理解vue的mvvm实现
+-->
+
+<!--模板-->
+<div id="test">
+    <input type="text" v-model="msg"><br><!--指令-->
+    <input type="text" v-model="msg"><!--指令-->
+    <br>
+    <img :src="imgUrl">
+    <img v-bind:src="imgUrl">
+    <div :class="cls1">
+        我是中国人
+    </div>
+    <div v-bind:class="cls1">
+        我是中国人
+    </div>
+    <button @click="update">更改</button>
+
+    <hr/>
+    <p :style="{color: actColor,fontSize}"> Style绑定</p>
+    <hr/>
+    <h2>Style绑定 - styleObj</h2>
+    <p :style="styleObj"> Style绑定 - styleObj</p>
+    <hr/>
+    <p v-text="msg"></p>
+    <p v-html="htmlStr"></p>
+    <p>hello {{msg}}</p><!--大括号表达式-->
+</div>
+
+<script type="text/javascript" src="../js/vue.js"></script>
+<script type="text/javascript">
+    const vm = new Vue({ // 配置对象 options
+        // 配置选项(option)
+        el: '#test',  // element: 指定用vue来管理页面中的哪个标签区域
+        data: {
+            msg: 'atguigu',
+            htmlStr: '<a href="http://www.baidu.com">百度一下,你就知道</a>',
+            imgUrl:'https://www.baidu.com/img/bd_logo1.png?where=super',
+            cls1: 'aClass',
+            actColor: 'red',
+            fontSize: '50px',
+            styleObj:{
+                color: 'blue',
+                fontSize: '100px',
+                background: 'red'
+            }
+        },
+        methods:{
+            update: function () {
+                if(this.cls1==='aClass'){
+                    this.cls1 = 'bClass';
+                }else{
+                    this.cls1 = 'aClass';
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

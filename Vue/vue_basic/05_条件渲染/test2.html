@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .a {
+            font-size: 20px;
+            background-color: seashell;
+            text-align: center;
+        }
+
+        .b {
+            font-size: 40px;
+            background-color: bisque;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="isShow=!isShow">切换</button>
+    <br>
+    <div v-show="isShow" :class="{a:isShow}">第一行 v-show 是使用style的display属性来控制标签的显示隐藏</div>
+    <div v-if="!isShow" :class="{b:!isShow}">第二行 v-if 是删除新增来控制标签的显示隐藏</div>
+</div>
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            isShow: true
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

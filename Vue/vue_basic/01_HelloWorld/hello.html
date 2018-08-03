@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>{{msg}}</div>
+        <button @click="hello">say hello</button>
+        <input v-model="str">
+        <br>
+        <div> {{str}}</div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg: '中国人',
+            str: '请输入姓名'
+        },
+        methods:{
+            hello: function () {
+                alert('Hello');
+            }
+        }
+    });
+</script>
+</html>

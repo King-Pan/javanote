@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .cls1{
+            font-size: 14px;
+            text-align: center;
+            background-color: aliceblue;
+        }
+        .cls2{
+            font-size: 20px;
+            text-align: left;
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>绑定变量值</h1>
+    <button @click="changeCls">改变样式</button>
+    <div :class="cls">
+        1. 模板的理解:
+        动态的html页面
+        包含了一些JS语法代码
+        大括号表达式
+        指令(以v-开头的自定义标签属性)
+        2. 双大括号表达式
+        <!--语法: {{exp}} 或 {{{exp}}}-->
+        功能: 向页面输出数据
+        可以调用对象的方法
+        3. 指令一: 强制数据绑定
+        功能: 指定变化的属性值
+        完整写法:
+        v-bind:xxx='yyy'  //yyy会作为表达式解析执行
+        简洁写法:
+        :xxx='yyy'
+        4. 指令二: 绑定事件监听
+        功能: 绑定指定事件名的回调函数
+        完整写法:
+        v-on:click='xxx'
+        简洁写法:
+        @click='xxx'
+    </div>
+    <a :href="href">链接</a><br/>
+    <input v-model="href"><br>
+    <div>{{href}}</div>
+    <hr>
+
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg: '消息',
+            href: 'http://baidu.com',
+            cls: 'cls1'
+        },
+        methods: {
+            changeCls: function () {
+                this.$data.cls =  this.$data.cls === 'cls1'?'cls2':'cls1';
+            }
+        }
+    });
+</script>
+</html>
