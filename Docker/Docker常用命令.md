@@ -320,7 +320,143 @@ Deleted: sha256:2cb0d9787c4dd17ef9eb03e512923bc4db10add190d3f84af63b744e353a9b34
 
 ## 1.3、容器命令
 
->
+> $ docker ps 查看docker容器
+
+* docker ps -a 查看已创建的容器，包括运行的和停止的
+* docker ps -s 查看正在运行的容器
+
+```shell
+ king-pan@King-Pan-PC ~ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS                       PORTS               NAMES
+8e8fdba46999        centos              "/bin/bash"         About a minute ago   Exited (137) 8 seconds ago                       mycentos
+ king-pan@King-Pan-PC ~ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+ king-pan@King-Pan-PC ~ docker start 8e8fdba46999
+8e8fdba46999
+ king-pan@King-Pan-PC ~ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES               SIZE
+8e8fdba46999        centos              "/bin/bash"         About a minute ago   Up 9 seconds                            mycentos            0B (virtual 199MB)
+```
+
+
+
+> $ docker run 创建容器
+
+* -i  交互的方式创建一个容器
+
+* -t  返回一个伪终端
+
+* —— name 给终端命名
+
+* — — rm exit容器后自动删除容器
+
+* 其他命令请参考 docker run — — help 命令
+
+  
+
+  ```shell
+  ~ docker ps -s
+  CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+  ~ docker ps -a
+  CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                       PORTS               NAMES
+  8e8fdba46999        centos              "/bin/bash"         6 minutes ago       Exited (137) 4 minutes ago                       mycentos
+   ~ docker run -it --name mycentos02 centos
+  [root@b2667c0419b8 /]# ls
+  anaconda-post.log  bin  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+  [root@b2667c0419b8 /]#
+  
+  ```
+
+
+
+> $ docker stop 停止容器
+
+* -t 多少秒后停止容器
+* 容器以伪终端交互形式启动的可以通过exit直接停止容器
+* 容器以伪终端交互形式启动的可以通过ctrl+q+p 来退出伪终端交互模式，可以通过docker stop 容器ID/名称停止容器，可以通过docker attach 容器ID/名称进入容器
+
+```shell
+~ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+~ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS                        PORTS               NAMES
+b2667c0419b8        centos              "/bin/bash"              About a minute ago   Exited (127) 2 minutes ago                        mycentos02
+7dedf3f34471        mysql               "docker-entrypoint.s…"   About a minute ago   Exited (1) 5 minutes ago                          mysql
+8e8fdba46999        centos              "/bin/bash"              12 minutes ago       Exited (137) 10 minutes ago                       mycentos
+~ docker start 8e8fdba46999
+8e8fdba46999
+~ docker attach 8e8fdba46999
+[root@8e8fdba46999 /]# ls
+anaconda-post.log  bin  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+[root@8e8fdba46999 /]# read escape sequence
+~ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+8e8fdba46999        centos              "/bin/bash"         13 minutes ago      Up 46 seconds                           mycentos            0B (virtual 199MB)
+~ docker attach mycentos
+[root@8e8fdba46999 /]# exit
+exit
+~ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+```
+
+
+
+> $ docket start 启动容器
+
+* -a 等同于—attach  启动容器并且进入容器
+
+```shell
+~ docker start --help
+
+Usage:	docker start [OPTIONS] CONTAINER [CONTAINER...]
+
+Start one or more stopped containers
+
+Options:
+  -a, --attach                  Attach STDOUT/STDERR and forward signals
+      --checkpoint string       Restore from this checkpoint
+      --checkpoint-dir string   Use a custom checkpoint storage directory
+      --detach-keys string      Override the key sequence for detaching a container
+  -i, --interactive             Attach container's STDIN
+~ docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                       PORTS               NAMES
+b2667c0419b8        centos              "/bin/bash"              6 minutes ago       Exited (127) 7 minutes ago                       mycentos02
+7dedf3f34471        mysql               "docker-entrypoint.s…"   6 minutes ago       Exited (1) 10 minutes ago                        mysql
+8e8fdba46999        centos              "/bin/bash"              17 minutes ago      Exited (0) 2 minutes ago                         mycentos
+~ docker start -a b2667c0419b8
+[root@b2667c0419b8 /]#
+```
+
+
+
+> $ docker rm 删除容器
+
+* -f    在删除镜像的时候，我们使用-f(force)强制删除镜像，同理docker rm -f 容器ID/名称 强制删除容器
+
+  
+
+  ```shell
+  ~ docker ps -a
+  CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+  b2667c0419b8        centos              "/bin/bash"              18 minutes ago      Up 11 minutes                                   mycentos02
+  7dedf3f34471        mysql               "docker-entrypoint.s…"   18 minutes ago      Exited (1) 22 minutes ago                       mysql
+  8e8fdba46999        centos              "/bin/bash"              29 minutes ago      Exited (0) 14 minutes ago                       mycentos
+  ~ docker start b2667c0419b8
+  b2667c0419b8
+  ~ docker ps -s
+  CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+  b2667c0419b8        centos              "/bin/bash"         18 minutes ago      Up 12 minutes                           mycentos02          27B (virtual 199MB)
+  ~ docker rm b2667c0419b8
+  Error response from daemon: You cannot remove a running container b2667c0419b8dfed8da14b7c13fd7779bd4e5abf8112bc9f95e3fa55323295f9. Stop the container before attempting removal or force remove
+  ~ docker rm -f b2667c0419b8
+  b2667c0419b8
+  ~ docker ps -s
+  CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+  ```
+
+  
+
+   
 
 ## 1.4、总结
 
