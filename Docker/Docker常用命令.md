@@ -346,6 +346,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 * -t  返回一个伪终端
 
+* -d 守护模式启动容器
+
 * —— name 给终端命名
 
 * — — rm exit容器后自动删除容器
@@ -427,6 +429,46 @@ b2667c0419b8        centos              "/bin/bash"              6 minutes ago  
 [root@b2667c0419b8 /]#
 ```
 
+> $ docker restart 容器ID/名称     重启容器
+
+* -t --time int second  多少秒后重启容器
+
+```shell
+[king-pan@localhost ~]$ docker restart --help
+
+Usage:  docker restart [OPTIONS] CONTAINER [CONTAINER...]
+
+Restart one or more containers
+
+Options:
+  -t, --time int   Seconds to wait for stop before killing the container (default 10)
+```
+
+```shell
+[king-pan@localhost ~]$ docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+tomcat              latest              f3159377bac1        5 days ago          463MB
+nginx               latest              c82521676580        12 days ago         109MB
+nginx               1.14.0              8ae4d16b741a        2 weeks ago         109MB
+hello-world         latest              2cb0d9787c4d        3 weeks ago         1.85kB
+[king-pan@localhost ~]$ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+[king-pan@localhost ~]$ docker run -it --name mytomcat tomcat
+Using CATALINA_BASE:   /usr/local/tomcat
+Using CATALINA_HOME:   /usr/local/tomcat
+Using CATALINA_TMPDIR: /usr/local/tomcat/temp
+Using JRE_HOME:        /docker-java-home/jre
+......
+06-Aug-2018 14:52:54.971 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 1102 ms
+[king-pan@localhost ~]$ docker ps -s
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+19f950cd7b4b        tomcat              "catalina.sh run"   24 seconds ago      Up 23 seconds       8080/tcp            mytomcat            40.1kB (virtual 463MB)
+[king-pan@localhost ~]$ docker restart ^C
+[king-pan@localhost ~]$ docker restart 19f950cd7b4b
+19f950cd7b4b
+[king-pan@localhost ~]$ 
+```
+
 
 
 > $ docker rm 删除容器
@@ -452,6 +494,346 @@ b2667c0419b8        centos              "/bin/bash"              6 minutes ago  
   b2667c0419b8
   ~ docker ps -s
   CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES               SIZE
+  ```
+
+  
+
+  > $ docker logs 容器ID/名称   查看容器日志
+
+  * -f  跟随最新的日志打印
+  * -t 显示时间戳
+  * --details 显示详情
+  * --tail number 显示最后n条
+  * --since string 从某个时间段开始的的或者多少分钟以前。
+
+  ```shell
+  [king-pan@localhost ~]$ docker logs --help
+  
+  Usage:  docker logs [OPTIONS] CONTAINER
+  
+  Fetch the logs of a container
+  
+  Options:
+        --details        Show extra details provided to logs
+    -f, --follow         Follow log output
+        --since string   Show logs since timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
+        --tail string    Number of lines to show from the end of the logs (default "all")
+    -t, --timestamps     Show timestamps
+        --until string   Show logs before a timestamp (e.g. 2013-01-02T13:23:37) or relative (e.g. 42m for 42 minutes)
+  [king-pan@localhost ~]$
+  ```
+
+  ```shell
+  [king-pan@localhost ~]$ docker logs -tf a1777e6d6234
+  2018-08-06T15:08:19.189281190Z hello centos
+  2018-08-06T15:08:21.198816713Z hello centos
+  ......
+  ```
+
+  ```shell
+  [king-pan@localhost ~]$ docker logs -f a1777e6d6234
+  hello centos
+  hello centos
+  ......
+  ```
+
+  ```shell
+  [king-pan@localhost ~]$ docker logs -tf --tail 5 a1777e6d6234
+  2018-08-06T15:19:46.596591947Z hello centos
+  2018-08-06T15:19:48.599787749Z hello centos
+  2018-08-06T15:19:50.603624298Z hello centos
+  2018-08-06T15:19:52.606892475Z hello centos
+  2018-08-06T15:19:54.609847748Z hello centos
+  --上面5条是显示最后的五条，下面的2条最新输出的2条
+  2018-08-06T15:19:56.612308851Z hello centos
+  2018-08-06T15:19:58.615083665Z hello centos
+  ```
+
+  > $ docker top 容器ID/名称 查看容器内运行的进程
+
+  * docker top 容器ID/名称
+
+  ```shell
+  [king-pan@localhost ~]$ docker ps -s
+  CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES               SIZE
+  a1777e6d6234        49f7960eb7e4        "/bin/sh -c 'while t…"   19 minutes ago      Up 19 minutes                           mycentos            0B (virtual 200MB)
+  [king-pan@localhost ~]$ docker top a1777e6d6234
+  UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+  root                5294                5277                0                   23:08               pts/0               00:00:00            /bin/sh -c while true;do echo hello centos;sleep 2;done
+  root                6242                5294                0                   23:28               pts/0               00:00:00            sleep 2
+  [king-pan@localhost ~]$ 
+  ```
+
+  
+
+  > $ docker inspect 容器ID/名称  查看容器内部细节
+
+  * docker inspect 容器ID/名称
+
+  ```shell
+  [king-pan@localhost ~]$ docker inspect a1777e6d6234
+  [
+      {
+          "Id": "a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00",
+          "Created": "2018-08-06T15:08:18.11800433Z",
+          "Path": "/bin/sh",
+          "Args": [
+              "-c",
+              "while true;do echo hello centos;sleep 2;done"
+          ],
+          "State": {
+              "Status": "running",
+              "Running": true,
+              "Paused": false,
+              "Restarting": false,
+              "OOMKilled": false,
+              "Dead": false,
+              "Pid": 5294,
+              "ExitCode": 0,
+              "Error": "",
+              "StartedAt": "2018-08-06T15:08:19.174137771Z",
+              "FinishedAt": "0001-01-01T00:00:00Z"
+          },
+          "Image": "sha256:49f7960eb7e4cb46f1a02c1f8174c6fac07ebf1eb6d8deffbcb5c695f1c9edd5",
+          "ResolvConfPath": "/var/lib/docker/containers/a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00/resolv.conf",
+          "HostnamePath": "/var/lib/docker/containers/a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00/hostname",
+          "HostsPath": "/var/lib/docker/containers/a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00/hosts",
+          "LogPath": "/var/lib/docker/containers/a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00/a1777e6d6234e601c64e2771eb92137b81854e98b9226bc918a3c5816f660a00-json.log",
+          "Name": "/mycentos",
+          "RestartCount": 0,
+          "Driver": "overlay2",
+          "Platform": "linux",
+          "MountLabel": "",
+          "ProcessLabel": "",
+          "AppArmorProfile": "",
+          "ExecIDs": null,
+          "HostConfig": {
+              "Binds": null,
+              "ContainerIDFile": "",
+              "LogConfig": {
+                  "Type": "json-file",
+                  "Config": {}
+              },
+              "NetworkMode": "default",
+              "PortBindings": {},
+              "RestartPolicy": {
+                  "Name": "no",
+                  "MaximumRetryCount": 0
+              },
+              "AutoRemove": false,
+              "VolumeDriver": "",
+              "VolumesFrom": null,
+              "CapAdd": null,
+              "CapDrop": null,
+              "Dns": [],
+              "DnsOptions": [],
+              "DnsSearch": [],
+              "ExtraHosts": null,
+              "GroupAdd": null,
+              "IpcMode": "shareable",
+              "Cgroup": "",
+              "Links": null,
+              "OomScoreAdj": 0,
+              "PidMode": "",
+              "Privileged": false,
+              "PublishAllPorts": false,
+              "ReadonlyRootfs": false,
+              "SecurityOpt": null,
+              "UTSMode": "",
+              "UsernsMode": "",
+              "ShmSize": 67108864,
+              "Runtime": "runc",
+              "ConsoleSize": [
+                  0,
+                  0
+              ],
+              "Isolation": "",
+              "CpuShares": 0,
+              "Memory": 0,
+              "NanoCpus": 0,
+              "CgroupParent": "",
+              "BlkioWeight": 0,
+              "BlkioWeightDevice": [],
+              "BlkioDeviceReadBps": null,
+              "BlkioDeviceWriteBps": null,
+              "BlkioDeviceReadIOps": null,
+              "BlkioDeviceWriteIOps": null,
+              "CpuPeriod": 0,
+              "CpuQuota": 0,
+              "CpuRealtimePeriod": 0,
+              "CpuRealtimeRuntime": 0,
+              "CpusetCpus": "",
+              "CpusetMems": "",
+              "Devices": [],
+              "DeviceCgroupRules": null,
+              "DiskQuota": 0,
+              "KernelMemory": 0,
+              "MemoryReservation": 0,
+              "MemorySwap": 0,
+              "MemorySwappiness": null,
+              "OomKillDisable": false,
+              "PidsLimit": 0,
+              "Ulimits": null,
+              "CpuCount": 0,
+              "CpuPercent": 0,
+              "IOMaximumIOps": 0,
+              "IOMaximumBandwidth": 0,
+              "MaskedPaths": [
+                  "/proc/acpi",
+                  "/proc/kcore",
+                  "/proc/keys",
+                  "/proc/latency_stats",
+                  "/proc/timer_list",
+                  "/proc/timer_stats",
+                  "/proc/sched_debug",
+                  "/proc/scsi",
+                  "/sys/firmware"
+              ],
+              "ReadonlyPaths": [
+                  "/proc/asound",
+                  "/proc/bus",
+                  "/proc/fs",
+                  "/proc/irq",
+                  "/proc/sys",
+                  "/proc/sysrq-trigger"
+              ]
+          },
+          "GraphDriver": {
+              "Data": {
+                  "LowerDir": "/var/lib/docker/overlay2/a3b50d936b18f53c411d11af5105c9d49bd8066777f6adac6918edd3d15f0ce9-init/diff:/var/lib/docker/overlay2/7db963326383e330ec662a09ebe3f52967bfeb3e94c4b0ec1d682487dbe8082e/diff",
+                  "MergedDir": "/var/lib/docker/overlay2/a3b50d936b18f53c411d11af5105c9d49bd8066777f6adac6918edd3d15f0ce9/merged",
+                  "UpperDir": "/var/lib/docker/overlay2/a3b50d936b18f53c411d11af5105c9d49bd8066777f6adac6918edd3d15f0ce9/diff",
+                  "WorkDir": "/var/lib/docker/overlay2/a3b50d936b18f53c411d11af5105c9d49bd8066777f6adac6918edd3d15f0ce9/work"
+              },
+              "Name": "overlay2"
+          },
+          "Mounts": [],
+          "Config": {
+              "Hostname": "a1777e6d6234",
+              "Domainname": "",
+              "User": "",
+              "AttachStdin": true,
+              "AttachStdout": true,
+              "AttachStderr": true,
+              "Tty": true,
+              "OpenStdin": true,
+              "StdinOnce": true,
+              "Env": [
+                  "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+              ],
+              "Cmd": [
+                  "/bin/sh",
+                  "-c",
+                  "while true;do echo hello centos;sleep 2;done"
+              ],
+              "Image": "49f7960eb7e4",
+              "Volumes": null,
+              "WorkingDir": "",
+              "Entrypoint": null,
+              "OnBuild": null,
+              "Labels": {
+                  "org.label-schema.schema-version": "= 1.0     org.label-schema.name=CentOS Base Image     org.label-schema.vendor=CentOS     org.label-schema.license=GPLv2     org.label-schema.build-date=20180531"
+              }
+          },
+          "NetworkSettings": {
+              "Bridge": "",
+              "SandboxID": "8159d3d704af87b4923b89e2a71e496e2bc887aa9e951e67eb42fe29a0a36a5d",
+              "HairpinMode": false,
+              "LinkLocalIPv6Address": "",
+              "LinkLocalIPv6PrefixLen": 0,
+              "Ports": {},
+              "SandboxKey": "/var/run/docker/netns/8159d3d704af",
+              "SecondaryIPAddresses": null,
+              "SecondaryIPv6Addresses": null,
+              "EndpointID": "6f0c016c5604851c7ac44d1aa4804cfa4d499cc150be71b78277fd902fd8baed",
+              "Gateway": "172.17.0.1",
+              "GlobalIPv6Address": "",
+              "GlobalIPv6PrefixLen": 0,
+              "IPAddress": "172.17.0.2",
+              "IPPrefixLen": 16,
+              "IPv6Gateway": "",
+              "MacAddress": "02:42:ac:11:00:02",
+              "Networks": {
+                  "bridge": {
+                      "IPAMConfig": null,
+                      "Links": null,
+                      "Aliases": null,
+                      "NetworkID": "8bfdd7be8f06d0a46ea7a0b50e331b6caaa4307387161fd75e7f79b2ece4410f",
+                      "EndpointID": "6f0c016c5604851c7ac44d1aa4804cfa4d499cc150be71b78277fd902fd8baed",
+                      "Gateway": "172.17.0.1",
+                      "IPAddress": "172.17.0.2",
+                      "IPPrefixLen": 16,
+                      "IPv6Gateway": "",
+                      "GlobalIPv6Address": "",
+                      "GlobalIPv6PrefixLen": 0,
+                      "MacAddress": "02:42:ac:11:00:02",
+                      "DriverOpts": null
+                  }
+              }
+          }
+      }
+  ]
+  [king-pan@localhost ~]$ 
+  ```
+
+  > $ docker attach 容器ID/名称 进入到启动的容器中
+
+  * docker attach  只是进入到容器中
+  * docker exec -it 容器ID/名称  cmd  直接执行命令并把结果返回到宿主机上
+
+  ```shell
+  [king-pan@localhost ~]$ docker ps
+  CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+  a1777e6d6234        49f7960eb7e4        "/bin/sh -c 'while t…"   31 minutes ago      Up 31 minutes                           mycentos
+  [king-pan@localhost ~]$ docker exec -it a1777e6d6234 ls -l /tmp
+  total 4
+  -rwx------. 1 root root 836 May 31 18:03 ks-script-3QMvMi
+  -rw-------. 1 root root   0 May 31 18:01 yum.log
+  [king-pan@localhost ~]$ docker attach a1777e6d6234
+  hello centos
+  hello centos
+  hello centos
+  ^Chello centos
+  hello centos
+  ^Chello centos
+  hello centos
+  hello centos
+  read escape sequence
+  [king-pan@localhost ~]$ docker attach a1777e6d6234
+  ```
+
+  > $ docker cp 容器ID:容器内路径 目的主机路径   把容器中的文件拷贝到本地
+
+  ```shell
+  [king-pan@localhost ~]$ docker run -it --name mycentos centos
+  [root@829afaa5024f /]# cd /tmp
+  [root@829afaa5024f tmp]# ls -l
+  total 4
+  -rwx------. 1 root root 836 May 31 18:03 ks-script-3QMvMi
+  -rw-------. 1 root root   0 May 31 18:01 yum.log
+  [root@829afaa5024f tmp]# [king-pan@localhost ~]$ 
+  [king-pan@localhost ~]$ ll
+  总用量 0
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 公共
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 模板
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 视频
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 图片
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 文档
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 下载
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 音乐
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 桌面
+  [king-pan@localhost ~]$ docker cp mycentos:/tmp/yum.log .
+  [king-pan@localhost ~]$ ls -l
+  总用量 0
+  -rw-------. 1 king-pan king-pan 0 6月   1 02:01 yum.log
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 公共
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 模板
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 视频
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 图片
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 文档
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 下载
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 音乐
+  drwxr-xr-x. 2 king-pan king-pan 6 7月  31 00:53 桌面
   ```
 
   
