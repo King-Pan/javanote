@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!-- 引入样式 -->
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<style>
+			.el-header,
+			.el-footer {
+				background-color: #545c64;
+				color: #909399;
+				text-align: center;
+				line-height: 60px;
+			}
+			
+			.el-footer {
+				color: #ffd0aa;
+			}
+			
+			.el-aside {
+				background-color: #545c64;
+				color: #333;
+				text-align: center;
+				line-height: 200px;
+			}
+			
+			.el-main {
+				background-color: #E9EEF3;
+				color: #333;
+				text-align: center;
+				height: 550px;
+			}
+			
+			body>.el-container {
+				margin-bottom: 40px;
+			}
+			
+			.el-container:nth-child(5) .el-aside,
+			.el-container:nth-child(6) .el-aside {
+				line-height: 260px;
+			}
+			
+			.el-container:nth-child(7) .el-aside {
+				line-height: 320px;
+			}
+			
+			.el-menu-vertical-demo:not(.el-menu--collapse) {
+				width: 200px;
+				min-height: 400px;
+			}
+			
+			.footer {
+				text-align: center;
+				line-height: 60px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<el-container>
+
+				<el-menu default-active="1-4-1" style="border-right:0px" class="el-menu-vertical-demo" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+					<el-submenu index="1">
+						<template slot="title">
+							<i class="el-icon-location"></i>
+							<span slot="title">导航一</span>
+						</template>
+						<el-menu-item-group>
+							<span slot="title">分组一</span>
+							<el-menu-item index="1-1">选项1</el-menu-item>
+							<el-menu-item index="1-2">选项2</el-menu-item>
+						</el-menu-item-group>
+						<el-menu-item-group title="分组2">
+							<el-menu-item index="1-3">选项3</el-menu-item>
+						</el-menu-item-group>
+						<el-submenu index="1-4">
+							<span slot="title">选项4</span>
+							<el-menu-item index="1-4-1">选项1</el-menu-item>
+						</el-submenu>
+					</el-submenu>
+					<el-menu-item index="2">
+						<i class="el-icon-menu"></i>
+						<span slot="title">导航二</span>
+					</el-menu-item>
+					<el-menu-item index="3" disabled>
+						<i class="el-icon-document"></i>
+						<span slot="title">导航三</span>
+					</el-menu-item>
+					<el-menu-item index="4">
+						<i class="el-icon-setting"></i>
+						<span slot="title">导航四</span>
+					</el-menu-item>
+				</el-menu>
+				<el-container>
+					<el-header>
+						<el-row>
+							<el-col :span="4">
+								<div class="grid-content bg-purple" style="float: left;">
+									<el-button type="primary" icon="el-icon-menu" @click="switchAside">切换</el-button>
+								</div>
+							</el-col>
+							<el-col :span="16">
+								<el-menu :default-active="activeIndex2" class="el-menu-demo" mode="horizontal" @select="handleSelect" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+									<el-menu-item index="1">处理中心</el-menu-item>
+									<el-submenu index="2">
+										<template slot="title">我的工作台</template>
+										<el-menu-item index="2-1">选项1</el-menu-item>
+										<el-menu-item index="2-2">选项2</el-menu-item>
+										<el-menu-item index="2-3">选项3</el-menu-item>
+										<el-submenu index="2-4">
+											<template slot="title">选项4</template>
+											<el-menu-item index="2-4-1">选项1</el-menu-item>
+											<el-menu-item index="2-4-2">选项2</el-menu-item>
+											<el-menu-item index="2-4-3">选项3</el-menu-item>
+										</el-submenu>
+									</el-submenu>
+									<el-menu-item index="3" disabled>消息中心</el-menu-item>
+									<el-menu-item index="4">
+										<a href="https://www.ele.me" target="_blank">订单管理</a>
+									</el-menu-item>
+								</el-menu>
+							</el-col>
+							<el-col :span="4">
+								<div class="grid-content bg-purple-light"></div>
+							</el-col>
+						</el-row>
+					</el-header>
+					<el-main>
+						<el-table :data="tableData3" style="width: 100%">
+							<el-table-column prop="date" label="日期" width="180">
+							</el-table-column>
+							<el-table-column prop="name" label="姓名" width="180">
+							</el-table-column>
+							<el-table-column prop="address" label="地址">
+							</el-table-column>
+						</el-table>
+						<el-button type="text" @click="dialogVisible = true">点击打开 Dialog</el-button>
+
+						<el-dialog title="提示" :visible.sync="dialogVisible" center fullscreen :before-close="handleClose">
+							<el-form :model="form">
+								<el-form-item label="活动名称" :label-width="formLabelWidth">
+									<el-input v-model="form.name" auto-complete="off"></el-input>
+								</el-form-item>
+								<el-form-item label="活动区域" :label-width="formLabelWidth">
+									<el-select v-model="form.region" placeholder="请选择活动区域">
+										<el-option label="区域一" value="shanghai"></el-option>
+										<el-option label="区域二" value="beijing"></el-option>
+									</el-select>
+								</el-form-item>
+							</el-form>
+							<div slot="footer" class="dialog-footer">
+								<el-button @click="dialogFormVisible = false">取 消</el-button>
+								<el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+							</div>
+						</el-dialog>
+
+					</el-main>
+					<el-footer>
+						<div class="block">
+							<span class="demonstration">Copyright &copy;2015-2018 xx快速开发系统 v1.0 All Rights Reserved.</span>
+							<span>本系统由<a href="http://www.javalearn.club/" target="_blank" title="java学习网">java学习网</a>提供前端技术支持</span>
+						</div>
+					</el-footer>
+				</el-container>
+			</el-container>
+		</div>
+		<script src="js/vue.min.js"></script>
+		<!-- import JavaScript -->
+		<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+		<script>
+			new Vue({
+				el: '#app',
+				data: function() {
+					return {
+						visible: false,
+						isCollapse: false,
+						activeIndex: '1',
+						activeIndex2: '1',
+						dialogVisible: false,
+						tableData3: [{
+							date: '2016-05-03',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-02',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-04',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-01',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-08',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-06',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}, {
+							date: '2016-05-07',
+							name: '王小虎',
+							address: '上海市普陀区金沙江路 1518 弄'
+						}],
+						multipleSelection: [],
+						dialogTableVisible: false,
+						dialogFormVisible: false,
+						form: {
+							name: '',
+							region: '',
+							date1: '',
+							date2: '',
+							delivery: false,
+							type: [],
+							resource: '',
+							desc: ''
+						},
+						formLabelWidth: '120px'
+					}
+				},
+				methods: {
+					switchAside: function() {
+						this.isCollapse = !this.isCollapse;
+					},
+					handleSelect: function(key, keyPath) {
+						console.log(key, keyPath);
+					},
+					handleOpen: function(key, keyPath) {
+						console.log(key, keyPath);
+					},
+					handleClose: function(key, keyPath) {
+						console.log(key, keyPath);
+					},
+					formatter: function(row, column) {
+						return row.address;
+					},
+					filterTag: function(value, row) {
+						return row.tag === value;
+					},
+					filterHandler: function(value, row, column) {
+						const property = column['property'];
+						return row[property] === value;
+					},
+					handleClose: function(done) {
+						this.$confirm('确认关闭？')
+							.then(_ => {
+								done();
+							})
+							.catch(_ => {});
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

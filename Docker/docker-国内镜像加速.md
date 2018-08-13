@@ -8,7 +8,7 @@
 
 
 
-![阿里云加速器](G:\javanote\Docker\imgs\阿里云镜像加速.png)
+![阿里云加速器](./imgs/阿里云镜像加速.png)
 
 ### 1.1.1、申请阿里云账号
 
@@ -20,7 +20,7 @@
 
 镜像加速地址查询方法：登陆https://dev.aliyun.com/--> 管理中心-->容器镜像服务-->镜像加速器； 
 
-![阿里云加速镜像](G:\javanote\Docker\imgs\配置.png)
+![阿里云加速镜像](.imgs/配置.png)
 
 > 针对Docker客户端版本大于 1.10.0 的用户和大于Centos7
 
