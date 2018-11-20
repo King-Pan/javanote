@@ -8,6 +8,8 @@
 
 设置路径:  settings-->Build,Execution,Deployment-->Compiler
 
+![设置自动编译](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/idea-compiler.png)
+
 
 
 > 设置Spring Boot Application
