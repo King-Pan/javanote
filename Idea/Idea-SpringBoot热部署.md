@@ -12,7 +12,7 @@
 
 > 设置Spring Boot Application
 
-![Spring Boot项目设置](.\images\application-cfg.png)
+![Spring Boot项目设置](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/application-cfg.png)
 
 
 
@@ -22,7 +22,7 @@
 
   快捷键: ctrl + alt + shift+/   --> 选择 1. Registry    --> 勾选 compiler.automake.allow.when.app.running
 
-![running](.\images\idea-running.png)
+![running](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/idea-running.png)
 
 * Mac设置
 
