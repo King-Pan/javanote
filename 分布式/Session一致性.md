@@ -9,7 +9,7 @@
 
 ​       单服务器web应用中，session信息只需存在该服务器中，这是我们前几年最常接触的方式，但是近几年随着分布式系统的流行，单系统已经不能满足日益增长的百万级用户的需求，集群方式部署服务器已在很多公司运用起来，当高并发量的请求到达服务端的时候通过负载均衡的方式分发到集群中的某个服务器，这样就有可能导致同一个用户的多次请求被分发到集群的不同服务器上，就会出现取不到session数据的情况，于是session的共享就成了一个问题。
 
-![Session一致性问题](/Users/king-pan/javanote/分布式/images/session-yzx.png)
+![Session一致性问题](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-yzx.png)
 
 ​       如上图，假设用户包含登录信息的session都记录在第一台web-server上，反向代理如果将请求路由到另一台web-server上，可能就找不到相关信息，而导致用户需要重新登录。
 
@@ -17,7 +17,7 @@
 
 ## 3.1、session复制（同步）
 
-![Session复制](/Users/king-pan/javanote/分布式/images/session-copy.png)
+![Session复制](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-copy.png)
 
  **思路**：多个web-server之间相互同步session，这样每个web-server之间都包含全部的session
 
@@ -31,7 +31,7 @@
 
 ## 3.2、客户端存储法 
 
-![客户端存储法](/Users/king-pan/javanote/分布式/images/session-client.png)
+![客户端存储法](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-client.png)
 
  **思路**：服务端存储所有用户的session，内存占用较大，可以将session存储到浏览器cookie中，每个端只要存储一个用户的数据了
 
@@ -49,7 +49,7 @@
 
 **思路**：web-server为了保证高可用，有多台冗余，反向代理层能不能做一些事情，让同一个用户的请求保证落在一台web-server上呢？
 
-![反向代理Hash一致性](/Users/king-pan/javanote/分布式/images/session-nginx-ip-hash.png)
+![反向代理Hash一致性](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-nginx-ip-hash.png)
 
  
 
@@ -57,7 +57,7 @@
 
 反向代理层使用用户ip来做hash，以保证同一个ip的请求落在同一个web-server上
 
- ![取Ip的hash值来保证同一个用户访问同一个web-server](/Users/king-pan/javanote/分布式/images/session-ip-hash.png)
+ ![取Ip的hash值来保证同一个用户访问同一个web-server](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-ip-hash.png)
 
  
 
@@ -86,7 +86,7 @@ session一般是有有效期的，所有不足中的两点，可以认为等同�
 
 ## 3.4、后端统一集中存储
 
-![后台统一集中存储](/Users/king-pan/javanote/分布式/images/session-db.png)
+![后台统一集中存储](https://raw.githubusercontent.com/King-Pan/javanote/master/分布式/images/session-db.png)
 
  
 
