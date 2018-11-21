@@ -26,7 +26,7 @@
 - 苹果系统 ： `SHIFT+COMMAND+A`
 - Windows： `CTRL+ALT+SHIFT+/`
 
-![running](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/idea-running.png)
+![running](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/idea-running2.png)
 
 
 
