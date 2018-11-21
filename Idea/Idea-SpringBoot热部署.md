@@ -20,15 +20,15 @@
 
 > 勾选 compiler.automake.allow.when.app.running
 
-* windows设置
+   快捷键: 
 
-  快捷键: ctrl + alt + shift+/   --> 选择 1. Registry    --> 勾选 compiler.automake.allow.when.app.running
+- Linux： `CTRL+SHIFT+A`
+- 苹果系统 ： `SHIFT+COMMAND+A`
+- Windows： `CTRL+ALT+SHIFT+/`
 
 ![running](https://raw.githubusercontent.com/King-Pan/javanote/master/Idea/images/idea-running.png)
 
-* Mac设置
 
-  快捷键: ctrl+ shift + a  
 
 
 
