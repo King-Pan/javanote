@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-body>
+	<driver>oracle.jdbc.driver.OracleDriver</driver>
+	<!-- 0 or 1 -->
+	<isEncryption>1</isEncryption>
+	<secendLogon>logon/hbmobile</secendLogon>
+
+	<DBConfig>
+		<dbName>srp</dbName>
+		<url>jdbc:oracle:thin:@10.30.160.22:1521:hbfwkt1</url>
+		<userName>srp</userName>
+		<password>123456</password>
+	</DBConfig>
+	<DBConfig>
+		<dbName>yyadb</dbName>
+		<url>jdbc:oracle:thin:@10.25.4.34:1521:hbyydba1</url>
+		<userName>tbcs</userName>
+		<password>123456</password>
+	</DBConfig>
+	<DBConfig>
+		<dbName>yybdb</dbName>
+		<url>jdbc:oracle:thin:@10.30.160.4:1521:hbyydbb1</url>
+		<userName>tbcs</userName>
+		<password>123456</password>
+	</DBConfig>
+	
+	<DBConfig>
+		<dbName>billadb</dbName>
+		<url>jdbc:oracle:thin:@10.25.4.30:1521:hbzwdba1</url>
+		<userName>tbcs</userName>
+		<password>123456</password>
+
+	</DBConfig>
+
+
+	<DBConfig>
+		<dbName>billbdb</dbName>
+		<url>jdbc:oracle:thin:@10.30.160.6:1521:hbzwdbb1</url>
+		<userName>tbcs</userName>
+		<password>123456</password>
+	</DBConfig>
+</xml-body>

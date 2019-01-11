@@ -98,161 +98,6 @@ ${book} 上下文变量
 
 #### 分段表达式
 
-<<<<<<< HEAD
-=======
-语法：th:insert或者th:replace
-
-```html
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
-    <body>
-        <div th:fragment="copy">
-            &copy; 2017 <a href="www.javalearn.club">javalearn.club</a>
-        </div>
-    </body>
-</html>
-```
-
-
-
-```html
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
-    <body>
-        <div th:insert="~{footer::copy}">
-           
-        </div>
-    </body>
-</html>
-```
-
-#### 字面量
-
-##### null
-
-```html
-<div th:if="${variable.something} == null">
-    ...
-</div>
-```
-
-#### 算术操作
-
-+、-、*、/、%等操作
-
-```html
-<div th:with="isEven(${prodStat.count}%2 == 0)">
-    ...
-</div>
-```
-
-#### 比较和等价
-
-比较: >、<、>=、<=、(gt,lt,ge,le)
-
-```html
-<ul class="pagination" data-th-if="${page.totalPages le 7}">
-    ...
-</ul>
-```
-
-等价: ==、!= (eq,ne)
-
-```html
-<option data-th-each="i : ${#arrays.toIntegerArray({5,10,40,100})}"data-th-value="${i}" data-th-selected=${i eq page.size}></option>
-```
-
-#### 条件运算符
-
-```html
-<tr th:class="${row.even} ? 'even':'odd'"> ... </tr>
-```
-
-#### 无操作
-
-_   th:text中取span标签中的值"no user authenticated"
-
-```html
-<span th:text="${user.name}?:_">no user authenticated</span>
-```
-
-
-
- ### 设置属性值
-
-#### 设置任意属性值
-
-语法：th:attr
-
-```html
-<form action="subscribe.html" th:attr="action=@{/subscribe}">
-    <fieldset>
-        <input type="text" name="email"/>
-        <input type="submit" value="Subscribe" th:attr="value=#{subscribe.submit}"/>
-    </fieldset>  
-</form>
-```
-
-效果:
-
-```html
-<form action="/项目名/subscribe.html">
-    <fieldset>
-        <input type="text" name="email"/>
-        <input type="submit" value="name"/>
-    </fieldset>
-</form>
-```
-
-th:attr="value=#{subscribe.submit}"
-
-th:attr="action=@{/subscribe}" 会替换原型中的值。
-
-#### 设置值到指定的属性
-
-```html
-<form action="subscribe.html" th:action="@{/subscribe}">
-    <fieldset>
-        <input type="text" name="email"/>
-        <input type="submit" value="Subscribe" th:value="#{subscribe.submit}"/>
-    </fieldset>  
-</form>
-```
-
-th:action="@{/subscribe}" 替换原型中的action属性值。
-
-th:value="#{subscribe.submit}" 替换原型中的value属性值。
-
-#### 固定值布尔属性
-
-```html
-<input type="checkbox" name="option1" checked>
-<input type="checkbox" name="option2" checked="checked">
-```
-
- 
-
-### 迭代器
-
-### 添加语句
-
-### 模板布局
-
-### 属性优先级
-
-### 注释
-
-### 内联
-
-### 基本对象
-
-### 工具对象
-
-### 其他
-
-
-
->>>>>>> 2f85be5... Thymeleaf href传参
 
 
 - **th:insert**   ：保留自己的主标签，保留th:fragment的主标签。
@@ -369,11 +214,7 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
 
 - `th:include` ：保留自己的主标签，不要th:fragment的主标签。（官方3.0后不推荐）
 
-<<<<<<< HEAD
 >
-=======
-> 
->>>>>>> 2f85be5... Thymeleaf href传参
 
 ```html
 <!DOCTYPE html>
@@ -435,11 +276,7 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
 
 
 
-<<<<<<< HEAD
 ```h't
-=======
-```h&#39;t
->>>>>>> 2f85be5... Thymeleaf href传参
 <head th:replace="commons/meta :: meta(title='主页')">
     <meta charset="UTF-8">
 </head>
@@ -447,7 +284,6 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
 
 
 
-<<<<<<< HEAD
 - 注意
 - 这儿的title=‘主页’是常量
 - 可以使用title=${var} 获取变量的值
@@ -581,8 +417,3 @@ th:value="#{subscribe.submit}" 替换原型中的value属性值。
 
 
 * 
-=======
-* 注意
-* 这儿的title=‘主页’是常量
-* 可以使用title=${var} 获取变量的值
->>>>>>> 2f85be5... Thymeleaf href传参
