@@ -4,7 +4,11 @@
 
 ```shell
 mysql -uroot -h10.29.31.244 -pplle373medlzzvwo7vme -P32111
+mysql -uroot -h10.29.31.244 -p -P32111
+plle373medlzzvwo7vme 
 mysql -udacp_smart -h10.29.31.244 -p'dacp_smart_!@#$' -P32111  # 密码有特殊字符需要加''
+
+mysql -udacp_smart -h10.29.31.244 -p -P32111
 ```
 
 
