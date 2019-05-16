@@ -2,4 +2,4 @@
 
 ## 部署路径
 
-10.31.100.21 /home/ocdc/wlw-ftp
+10.31.100.21 /home/ocdc/wlan-ftp
